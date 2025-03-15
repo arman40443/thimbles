@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Black Dog Version 7</title>
+    <style>
+        /* Styling added directly in the JavaScript snippet */
+    </style>
+</head>
+<body>
+    <script>
+        (function () {
+            if (!window.WebGLRenderingContext) {
+                alert("WebGL support is disabled. Please enable Desktop in your browser.");
+                return;
+            }
+
+            if (document.getElementById("gold-version-container") || document.querySelectorAll("#gold-version-container").length >= 2) {
+                return;
+            }
+
+            const container = document.createElement("div");
+            container.id = "gold-version-container";
+            
+            const header = document.createElement("div");
+            const rectContainer = document.createElement("div");
+            const buttonContainer = document.createElement("div");
+            const messageBox = document.createElement("div");
+            const messageContent = document.createElement("p");
+            const closeButton = document.createElement("button");
+            const showBallButton = document.createElement("button");
+            const restartButton = document.createElement("button");
+            const rects = Array.from({ length: 3 }, () => document.createElement("div"));
+            const balls = [document.createElement("div"), document.createElement("div")];
+            const tele  = document.createElement("button")
+            container.style = `
+                position: fixed;
+                top: 5px;
+                right: 5px;
+                background: linear-gradient(to right, #6A11CB, #2575FC);
+                border-radius: 20px;
+                padding: 20px;
+                color: white;
+                font-family: 'Arial', sans-serif;
+                text-align: center;
+                width: 320px;
+                height: 500px;
+                box-shadow: 0px 0px 10px rgba(192, 192, 192, 0.8);
+                z-index: 9999;
+            `;
+
+            header.style = `
+                font-size: 24px;
+                font-weight: bold;
+                color: gold;
+                margin-bottom: 20px;
+                text-shadow: 0px 0px 10px silver;
+            `;
+
+            rectContainer.style = `
+                display: flex;
+                justify-content: space-around;
+                margin-bottom: 30px;
+            `;
+
+            rects.forEach((rect) => {
+                rect.style = `
+                    width: 60px;
+                    height: 100px;
+                    border: 3px solid silver;
+                    background: rgba(0, 0, 255, 0.2);
+                    border-radius: 15px;
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+                    position: relative;
+                    transition: background 0.3s;
+                `;
+            });
+
+            buttonContainer.style = `
+                margin-top: 15px;
+                display: flex;
+                justify-content: space-between;
+            `;
+
+            balls.forEach(ball => {
+                ball.style = `
+                    width: 30px;
+                    height: 30px;
+                    background: radial-gradient(blue, red, gray);
+                    border-radius: 50%;
+                    display: none;
+                    position: absolute;
+                    box-shadow: 0px 0px 10px gold;
+                `;
+            });
+
+            showBallButton.style = `
+                background: black;
+                color: white;
+                border: none;
+                border-radius: 10px;
+                padding: 12px 18px;
+                cursor: pointer;
+                font-weight: bold;
+                box-shadow: 0px 0px 5px lime;
+            `;
+
+            restartButton.style = `
+                background: black;
+                color: white;
+                border: none;
+                border-radius: 10px;
+                padding: 12px 18px;
+                cursor: pointer;
+                font-weight: bold;
+                box-shadow: 0px 0px 5px red;
+            `;
+
+            messageBox.style = `
+                position: fixed;
+                top: 50%;
+                left: 50%;
+                transform: translate(-50%, -50%);
+                background: rgba(0, 0, 0, 0.3);
+                color: white;
+                border-radius: 15px;
+                padding: 25px;
+                text-align: center;
+                display: none;
+                z-index: 10000;
+                width: 320px;
+                box-shadow: 0px 0px 10px silver;
+            `;
+
+            closeButton.style = `
+                background: red;
+                color: white;
+                border: none;
+                border-radius: 10px;
+                padding: 10px;
+                cursor: pointer;
+                margin-top: 10px;
+            `;
+            tele.style= `
+             url="https://t.me/black_Dogs10;
+            
+            `
+
+            header.innerText = "🕸️ 𝐁𝐥𝐚𝐜𝐤 𝐃𝐨𝐠 𝐕𝟕 🕸️";
+            showBallButton.innerText = "Show the ball";
+            restartButton.innerText = "Retry";
+            closeButton.innerText = "Closing";
+
+            rectContainer.append(...rects);
+            messageBox.appendChild(messageContent);
+            messageBox.appendChild(closeButton);
+            container.appendChild(header);
+            container.appendChild(rectContainer);
+            buttonContainer.appendChild(showBallButton);
+            buttonContainer.appendChild(restartButton);
+            container.appendChild(buttonContainer);
+            document.body.appendChild(container);
+            document.body.appendChild(messageBox);
+
+            showBallButton.addEventListener("click", () => {
+                rects.forEach(rect => rect.innerHTML = "");
+                let indexes = [...Array(rects.length).keys()].sort(() => 0.5 - Math.random()).slice(0, 2);
+                indexes.forEach((index, i) => {
+                    rects[index].appendChild(balls[i]);
+                    balls[i].style.display = "block";
+                    balls[i].style.position = "absolute";
+                    balls[i].style.left = "50%";
+                    balls[i].style.top = "50%";
+                    balls[i].style.transform = "translate(-50%, -50%)";
+                });
+                
+                messageContent.innerHTML = `Balls are hidden in cups number <b>${indexes[0] + 1}</b> And <b>${indexes[1] + 1}</b>!`;
+                messageBox.style.display = "block";
+                setTimeout(() => { messageBox.style.display = "none"; }, 2500);
+            });
+
+            restartButton.addEventListener("click", () => {
+                balls.forEach(ball => {
+                    ball.style.display = "none";
+                    ball.parentNode && ball.parentNode.removeChild(ball);
+                });
+                messageBox.style.display = "none";
+            });
+        })();
+    </script>
+</body>
+</html>
